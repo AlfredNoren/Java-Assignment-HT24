@@ -63,7 +63,7 @@ public class ShipmentMoveDialogController {
 
     @FXML
     public void handleButtonSendShipmentAction() {
-        // Handle action when the send button is clicked
+        // Collect and validate all move inputs before changing shipment state.
         Warehouse selectedWarehouse = comboBoxNewWarehouse.getValue();
         LocalDate shippingDate = datePickerShippingDate.getValue();
         LocalDate exitDate = datePickerExitDate.getValue();
@@ -79,11 +79,12 @@ public class ShipmentMoveDialogController {
                     labelMoveShipment.setText("Shipment is already in this warehouse.");
                     labelMoveShipment.setVisible(true);
                 }else if (ChronoUnit.DAYS.between(shippingDate, exitDate) > 14) {
+                    // Long storage is allowed, but requires explicit user confirmation.
                     Alert alert = new Alert(AlertType.CONFIRMATION, "Shipment will be stored for over 14 days. Proceed?", ButtonType.YES, ButtonType.NO);
                     alert.showAndWait();
                     if (alert.getResult() == ButtonType.YES) {
                         shipment.moveToWarehouse(newWarehouse, shippingDate, exitDate, status);
-                        // Close the dialog
+                        // Close the dialog only after a successful move.
                         Stage stage = (Stage) buttonSendShipment.getScene().getWindow();
                         stage.close();
                     } else {
@@ -92,7 +93,7 @@ public class ShipmentMoveDialogController {
 
                 } else {
                     shipment.moveToWarehouse(newWarehouse, shippingDate, exitDate, status);
-                    // Close the dialog
+                    // Close the dialog only after a successful move.
                     Stage stage = (Stage) buttonSendShipment.getScene().getWindow();
                     stage.close();
                 }
@@ -111,7 +112,7 @@ public class ShipmentMoveDialogController {
 
     @FXML
     public void handleButtonBackAction() {
-        // Handle action when the back button is clicked
+        // Close without saving any pending edits.
         Stage stage = (Stage) buttonBack.getScene().getWindow();
         stage.close();
     }

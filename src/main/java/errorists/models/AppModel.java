@@ -29,6 +29,7 @@ public class AppModel {
         return this.inspectionRegister;
     }
 
+    // Seeds the app with representative data so views can be tested without manual input.
     private void addTestData() {
         Warehouse warehouse1 = new Warehouse("Odin's Vault", "123 Asgard St", 1000, Region.NORTH);
         Warehouse warehouse2 = new Warehouse("Valhalla Hub", "456 Valhalla Ave", 1500, Region.MIDDLE);
