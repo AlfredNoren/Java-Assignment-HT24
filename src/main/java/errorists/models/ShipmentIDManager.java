@@ -8,14 +8,15 @@ public class ShipmentIDManager {
     private static final Random random = new Random();
     private static final int ID_LENGTH = 8;
     private static final String CHAR_POOL = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    // Shared set to guarantee uniqueness across generated shipment IDs.
     private static Set<String> existingIDs = new HashSet<>();
 
-    //Constructor
+    // Constructor allows startup code to preload already assigned IDs.
     public ShipmentIDManager(Set<String> existingIDs) {
-        this.existingIDs = existingIDs;
+        ShipmentIDManager.existingIDs = existingIDs;
     }
 
-    //generate a unique ID an check if the ID is already in use
+    // Keeps generating until an unused ID is found, then reserves it.
     public static String generateUniqueID() {
         String newID;
         do {
@@ -25,7 +26,7 @@ public class ShipmentIDManager {
         return newID;
     }
 
-    //generate a random ID of length 8 and return it as a string
+    // Generates a random 8-character ID using uppercase letters and digits.
     public static String generateID() {
         StringBuilder id = new StringBuilder(ID_LENGTH);
         for (int i = 0; i < ID_LENGTH; i++) {
@@ -34,12 +35,12 @@ public class ShipmentIDManager {
         return id.toString();
     }
 
-    //Method to add an existing ID from the set
+    // Registers an externally created ID to avoid future collisions.
     public void addExistingID(String id) {
         existingIDs.add(id);
     }
 
-    //Method to remove an existing ID from the set
+    // Removes an ID when a shipment is deleted or otherwise invalidated.
     public void removeExistingID(String id) {
         existingIDs.remove(id);
     }
