@@ -10,5 +10,6 @@ module errorists {
     requires javafx.fxml;
     requires javafx.base;
     requires transitive  javafx.graphics;
+    requires java.logging;
     
 }

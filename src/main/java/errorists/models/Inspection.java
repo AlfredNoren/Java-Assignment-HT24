@@ -21,8 +21,13 @@ public class Inspection {
         return inspectorName;
     }
 
-    public void setInpsectorName(String inspectorName) {
+    public void setInspectorName(String inspectorName) {
         this.inspectorName = inspectorName;
+    }
+
+    @Deprecated
+    public void setInpsectorName(String inspectorName) {
+        setInspectorName(inspectorName);
     }
 
     public LocalDate getInspectionDate() {
@@ -50,9 +55,8 @@ public class Inspection {
     }
 
     public Warehouse getInspectionLocation() {
-
-        // Get the location of the inspection
-        return shipment.getCurrentWarehouse();
+        // Prefer explicitly stored inspection location; fallback to shipment location for legacy data.
+        return warehouse != null ? warehouse : (shipment != null ? shipment.getCurrentWarehouse() : null);
     }
 
 

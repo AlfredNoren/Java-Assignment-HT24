@@ -1,6 +1,8 @@
 package errorists.controllers;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import errorists.models.Inspection;
 import errorists.models.InspectionResult;
@@ -21,6 +23,8 @@ import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class WarehouseInfoViewController {
+
+    private static final Logger LOG = Logger.getLogger(WarehouseInfoViewController.class.getName());
 
     private AppController appController;
 
@@ -127,7 +131,8 @@ public class WarehouseInfoViewController {
 
                 tableColumnInspectionLocation.setCellValueFactory(cellData -> {
                     Inspection inspection = cellData.getValue();
-                    return new SimpleStringProperty(inspection.getInspectionLocation().getName());
+                    Warehouse inspectionLocation = inspection.getInspectionLocation();
+                    return new SimpleStringProperty(inspectionLocation != null ? inspectionLocation.getName() : "Unknown");
                 });
 
                 tableViewShipmentLog.setItems(newValue.getShipmentLog());
@@ -206,13 +211,13 @@ public class WarehouseInfoViewController {
     }
 
     public void handleMenuItemAddShipmentAction() {
-        System.out.println("Add Shipments Menu Item Clicked");
+        LOG.fine("Add shipments action clicked");
     }
 
     public void handleMenuItemDeleteShipmentAction() {
         labelActionResponse.setText("");
         labelActionResponse.setVisible(false);
-        System.out.println("Delete Shipments Menu Item Clicked");
+        LOG.fine("Delete shipment action clicked");
 
         Shipment selectedShipment = tableViewShipments.getSelectionModel().getSelectedItem();
         if (selectedShipment != null) {
@@ -231,23 +236,23 @@ public class WarehouseInfoViewController {
                 // Update the TableView
                 tableViewShipments.getItems().remove(selectedShipment);
 
-                System.out.println("Shipment deleted successfully.");
+                LOG.fine("Shipment deleted successfully");
                 labelActionResponse.setText("Shipment deleted successfully.");
             } catch (Exception e) {
-                System.out.println("Error deleting shipment.");
+                LOG.log(Level.WARNING, "Error deleting shipment", e);
                 labelActionResponse.setText("Error deleting shipment.");
             }
         } else {
             String response = "No shipment selected.";
             labelActionResponse.setText(response);
-            System.out.println(response);
+            LOG.fine(response);
         }
 
         labelActionResponse.setVisible(true);
     }
 
     public void handleButtonAddInspectionAction(ActionEvent event) {
-        System.out.println("Add Inspection Button Clicked");
+        LOG.fine("Add inspection button clicked");
         String response = "No shipment selected.";
         labelResponseInspection.setText(response);
         labelResponseInspection.setVisible(true);
@@ -255,7 +260,7 @@ public class WarehouseInfoViewController {
     }
 
     public void handleButtonDeleteInspectionAction(ActionEvent event) {
-        System.out.println("Delete Inspection Button Clicked");
+        LOG.fine("Delete inspection button clicked");
         String response = "No inspection selected";
         labelResponseInspection.setText(response);
         labelResponseInspection.setVisible(true);
@@ -264,7 +269,7 @@ public class WarehouseInfoViewController {
     public void handleButtonAddLogEntryAction(ActionEvent event) throws IOException {
         labelResponseLog.setText("");
         labelResponseLog.setVisible(false);
-        System.out.println("Add Log Entry Button Clicked");
+        LOG.fine("Add log entry button clicked");
         Shipment selectedShipment = tableViewShipments.getSelectionModel().getSelectedItem();
         if (selectedShipment != null) {
             appController.showShipmentLogAddDialog(selectedShipment);
@@ -276,7 +281,7 @@ public class WarehouseInfoViewController {
     }
 
     public void handleButtonDeleteLogEntryAction(ActionEvent event) {
-        System.out.println("Delete Log Entry Button Clicked");
+        LOG.fine("Delete log entry button clicked");
         try {
             ShipmentLog selectedLog = tableViewShipmentLog.getSelectionModel().getSelectedItem();
             if (selectedLog != null) {
@@ -287,7 +292,7 @@ public class WarehouseInfoViewController {
                 labelResponseLog.setVisible(true);
             }
         } catch (Exception e) {
-            System.out.println("Error deleting log entry");
+            LOG.log(Level.WARNING, "Error deleting log entry", e);
         }
 
     }
@@ -295,19 +300,19 @@ public class WarehouseInfoViewController {
     public void handleMenuItemMoveShipmentAction(ActionEvent event) {
         labelActionResponse.setText("");
         labelActionResponse.setVisible(false);
-        System.out.println("Move Shipments Menu Item Clicked");
+        LOG.fine("Move shipment action clicked");
         try {
             Shipment selectedShipment = tableViewShipments.getSelectionModel().getSelectedItem();
             if (selectedShipment != null) {
                 appController.showMoveShipmentDialog(selectedShipment);
             } else {
-                System.out.println("No shipment selected.");
+                LOG.fine("No shipment selected");
                 String response = "No shipment selected";
                 labelActionResponse.setText(response);
                 labelActionResponse.setVisible(true);
             }
         } catch (IOException e) {
-            System.out.println("Error loading ShipmentMoveView");
+            LOG.log(Level.WARNING, "Error loading ShipmentMoveView", e);
         }
     }
 

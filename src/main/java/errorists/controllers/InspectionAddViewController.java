@@ -2,6 +2,7 @@ package errorists.controllers;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.logging.Logger;
 
 import errorists.models.AppModel;
 import errorists.models.Inspection;
@@ -15,6 +16,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.TextField;
 
 public class InspectionAddViewController {
+    private static final Logger LOG = Logger.getLogger(InspectionAddViewController.class.getName());
     private AppModel appModel;
     private AppController appController;
 
@@ -44,7 +46,7 @@ public class InspectionAddViewController {
         comboBoxInspectionResult.setOnAction(event -> {
             InspectionResult selectedResult = comboBoxInspectionResult.getValue();
             if (selectedResult != null) {
-                System.out.println("Selected result: " + selectedResult);
+                LOG.fine("Selected result: " + selectedResult);
             }
 
         });   
@@ -107,7 +109,7 @@ private void populateComboBoxes() {
 
     @FXML
     public void handleButtonInspectionBackAction() throws IOException {
-        System.out.println("Back button clicked");
+        LOG.fine("Back button clicked");
         appController.loadView("InspectionsView");
     }
 

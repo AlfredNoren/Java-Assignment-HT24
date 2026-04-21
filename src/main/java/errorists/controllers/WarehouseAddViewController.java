@@ -1,6 +1,7 @@
 package errorists.controllers;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import errorists.models.AppModel;
 import errorists.models.Region;
@@ -12,6 +13,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 public class WarehouseAddViewController {
+
+    private static final Logger LOG = Logger.getLogger(WarehouseAddViewController.class.getName());
 
     private AppController appController;
     private AppModel appModel;
@@ -98,7 +101,7 @@ public class WarehouseAddViewController {
         if (errorMessage != null) {
             labelInvalid.setText(errorMessage);
             labelInvalid.setVisible(true);  
-            System.out.println(errorMessage);
+            LOG.fine(errorMessage);
         }
     }
 

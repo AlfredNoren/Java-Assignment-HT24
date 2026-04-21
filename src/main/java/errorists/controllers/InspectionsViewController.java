@@ -2,6 +2,7 @@ package errorists.controllers;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.logging.Logger;
 
 import errorists.models.AppModel;
 import errorists.models.Inspection;
@@ -22,6 +23,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 
 public class InspectionsViewController {
+    private static final Logger LOG = Logger.getLogger(InspectionsViewController.class.getName());
     private AppModel appModel;
     private AppController appController;
 
@@ -54,7 +56,7 @@ public class InspectionsViewController {
         tableColumnInspectorName.setCellFactory(TextFieldTableCell.forTableColumn());
         tableColumnInspectorName.setOnEditCommit(event -> {
             Inspection inspection = event.getRowValue();
-            inspection.setInpsectorName(event.getNewValue());
+            inspection.setInspectorName(event.getNewValue());
         });
         
 
@@ -101,13 +103,13 @@ public class InspectionsViewController {
     
     @FXML
     public void handleButtonAddInspectionAction (ActionEvent event) throws IOException {
-        System.out.println("Add Inspection Menu Item Clicked");
+        LOG.fine("Add inspection action clicked");
         appController.loadView("InspectionAddView");
     }
 
     @FXML
     public void handleButtonDeleteInspectionAction (ActionEvent event) {
-        System.out.println("Delete Inspection Menu Item Clicked");
+        LOG.fine("Delete inspection action clicked");
         Inspection selectedInspection = inspectionsTableView.getSelectionModel().getSelectedItem();
         labelDeleteAction.setText("");
         labelDeleteAction.setVisible(false);

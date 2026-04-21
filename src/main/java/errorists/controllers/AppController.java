@@ -2,6 +2,7 @@ package errorists.controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.logging.Logger;
 
 import errorists.models.AppModel;
 import errorists.models.Shipment;
@@ -13,6 +14,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class AppController {
+    private static final Logger LOG = Logger.getLogger(AppController.class.getName());
     private final Stage primaryStage;
     private MainViewController mainViewController;
     private final AppModel appModel;
@@ -26,7 +28,7 @@ public class AppController {
 
     
     public void showMainView() throws IOException{
-        System.out.println("Main View Shown");
+        LOG.info("Main view shown");
         URL url = getClass().getResource("/fxml/MainView.fxml");
         FXMLLoader loader = new FXMLLoader(url);
         Scene scene = new Scene(loader.load());
@@ -43,7 +45,7 @@ public class AppController {
 
     public void loadView(String view) throws IOException{
         URL url = getClass().getResource("/fxml/"+ view +".fxml");
-        System.out.println("Loading FXML: " + url);
+        LOG.fine("Loading FXML: " + url);
 
         FXMLLoader loader = new FXMLLoader(url);
         Parent root = loader.load();
@@ -52,29 +54,29 @@ public class AppController {
         Object controller = loader.getController();
     
         if (controller instanceof WarehousesViewController) {
-            System.out.println("controller is WarehousesViewController");
+            LOG.fine("Controller is WarehousesViewController");
             WarehousesViewController warehousesViewController = (WarehousesViewController) controller;
             warehousesViewController.setAppController(this);  
             warehousesViewController.setAppModel(appModel);   
             
         } else if (controller instanceof ShipmentsViewController) {
-            System.out.println("controller is ShipmentsViewController");
+            LOG.fine("Controller is ShipmentsViewController");
             ShipmentsViewController shipmentsViewController = (ShipmentsViewController) controller;
             shipmentsViewController.setAppController(this);  // Set AppController if needed
             shipmentsViewController.setAppModel(appModel);   // Set AppModel for data access
         } else if (controller instanceof InspectionsViewController) {
-            System.out.println("controller is InspectionsViewController");
+            LOG.fine("Controller is InspectionsViewController");
             InspectionsViewController inspectionsViewController = (InspectionsViewController) controller;
             inspectionsViewController.setAppController(this);  // Set AppController if needed
             inspectionsViewController.setAppModel(appModel);   // Set AppModel for data access
             
         } else if (controller instanceof DashboardController) {
-            System.out.println("controller is DashboardController");
+            LOG.fine("Controller is DashboardController");
             DashboardController dashboardController = (DashboardController) controller;
             dashboardController.setAppController(this);  // Set AppController if needed
             dashboardController.setAppModel(appModel);   // Set AppModel for data access
         } else if (controller instanceof ShipmentAddViewController) {
-            System.out.println("controller is ShipmentAddViewController");
+            LOG.fine("Controller is ShipmentAddViewController");
             ShipmentAddViewController shipmentAddViewController = (ShipmentAddViewController) controller;
             shipmentAddViewController.setAppController(this);  // Set AppController if needed
             shipmentAddViewController.setAppModel(appModel);   // Set AppModel for data access
@@ -96,7 +98,7 @@ public class AppController {
     
     public void loadWarehouseInfoView(Warehouse selectedWarehouse) throws IOException {
     URL url = getClass().getResource("/fxml/WarehouseInfoView.fxml");
-    System.out.println("Loading WarehouseInfoView FXML: " + url);
+    LOG.fine("Loading WarehouseInfoView FXML: " + url);
 
     FXMLLoader loader = new FXMLLoader(url);
     Parent root = loader.load();

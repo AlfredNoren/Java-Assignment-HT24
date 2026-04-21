@@ -3,6 +3,7 @@ package errorists.controllers;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.logging.Logger;
 
 import errorists.models.AppModel;
 import errorists.models.Inspection;
@@ -25,6 +26,8 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.converter.IntegerStringConverter;
 
 public class WarehousesViewController {
+
+    private static final Logger LOG = Logger.getLogger(WarehousesViewController.class.getName());
 
     private AppModel appModel;
     private AppController appController;
@@ -188,7 +191,7 @@ public class WarehousesViewController {
 
     @FXML
     public void handleButtonAddWarehouseAction(ActionEvent event) {
-        System.out.println("Add Warehouse Button Clicked");
+        LOG.fine("Add warehouse button clicked");
         try {
             appController.loadView("WarehouseAddView");
         } catch (Exception e) {
@@ -198,7 +201,7 @@ public class WarehousesViewController {
 
     @FXML
     public void handleButtonDeleteWarehouseAction(ActionEvent event) {
-        System.out.println("Delete Warehouse Button Clicked");
+        LOG.fine("Delete warehouse button clicked");
         Warehouse selectedWarehouse = tableViewWarehouse.getSelectionModel().getSelectedItem();
         if (selectedWarehouse != null) {
     
@@ -224,13 +227,13 @@ public class WarehousesViewController {
             populateTableView();
         } else {
             labelResponseViewDetails.setText("No Warehouse selected");
-            System.out.println("No Warehouse selected");
+            LOG.fine("No warehouse selected");
         }
     }
 
     @FXML
     public void handleButtonViewDetailsAction(ActionEvent event) throws IOException {
-        System.out.println("View Details Button Clicked");
+        LOG.fine("View details button clicked");
         Warehouse selectedWarehouse = tableViewWarehouse.getSelectionModel().getSelectedItem();
 
         if (selectedWarehouse != null) {

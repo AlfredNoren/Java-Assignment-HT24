@@ -2,6 +2,7 @@ package errorists.controllers;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.logging.Logger;
 
 import errorists.models.AppModel;
 import errorists.models.Inspection;
@@ -22,6 +23,8 @@ import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class ShipmentsViewController {
+
+    private static final Logger LOG = Logger.getLogger(ShipmentsViewController.class.getName());
 
     private AppModel appModel;
     private AppController appController;
@@ -179,13 +182,13 @@ public class ShipmentsViewController {
 
     @FXML
     public void handleButtonAddShipmentAction(ActionEvent event) throws IOException {
-        System.out.println("Add Shipment button clicked");
+        LOG.fine("Add shipment button clicked");
         appController.loadView("ShipmentAddView");
     }
 
     @FXML
     public void handleButtonRemoveShipmentAction(ActionEvent event) {
-        System.out.println("Delete Shipment button clicked");
+        LOG.fine("Delete shipment button clicked");
         Shipment selectedShipment = shipmentsTableView.getSelectionModel().getSelectedItem();
 
         if (selectedShipment != null) {
@@ -205,7 +208,7 @@ public class ShipmentsViewController {
             String response = "No shipment selected.";
             labelDeleteShipment.setText(response);
             labelDeleteShipment.setVisible(true);
-            System.out.println("No shipment selected.");
+            LOG.fine("No shipment selected");
         }
     }
 
